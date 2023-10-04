@@ -7,6 +7,7 @@
 #include "GameplayTagContainer.h"
 #include "AttributeInfo.generated.h"
 
+// For UI
 USTRUCT(BlueprintType)
 struct FAuraAttributeInfo
 {
