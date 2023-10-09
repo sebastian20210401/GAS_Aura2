@@ -126,8 +126,10 @@ void UAuraAbilitySystemComponent::ServerUpgradeAttribute_Implementation(const FG
 	Payload.EventTag = AttributeTag;
 	Payload.EventMagnitude = 1.f;
 
+	// Gain
 	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetAvatarActor(), AttributeTag, Payload);
 
+	// Cost
 	if (GetAvatarActor()->Implements<UPlayerInterface>())
 	{
 		IPlayerInterface::Execute_AddToAttributePoints(GetAvatarActor(), -1);
