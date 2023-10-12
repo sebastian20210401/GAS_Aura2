@@ -43,6 +43,7 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FWaitForEquipSelectionSignature StopWaitingForEquipDelegate;
 
+	// for WBP_SpellGlobeButton
 	UPROPERTY(BlueprintAssignable)
 	FSpellGlobeReassignedSignature SpellGlobeReassignedDelegate;
 

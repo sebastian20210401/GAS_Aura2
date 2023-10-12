@@ -130,6 +130,7 @@ void USpellMenuWidgetController::SpellGlobeDeselect()
 
 void USpellMenuWidgetController::EquipButtonPressed()
 {
+	// Get Information from SelectedAbility
 	const FGameplayTag AbilityType = AbilityInfo->FindAbilityInfoForTag(SelectedAbility.Ability).AbilityType;
 
 	WaitForEquipDelegate.Broadcast(AbilityType);
