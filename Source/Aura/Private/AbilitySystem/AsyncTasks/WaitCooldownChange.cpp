@@ -70,6 +70,7 @@ void UWaitCooldownChange::OnActiveEffectAdded(UAbilitySystemComponent* TargetASC
 				}
 			}
 
+			//CooldownStart.Broadcast(TimesRemaining[TimesRemaining.Num()-1]);
 			CooldownStart.Broadcast(TimeRemaining);
 		}
 	}
