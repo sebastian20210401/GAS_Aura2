@@ -62,9 +62,13 @@ bool FAuraGameplayEffectContext::NetSerialize(FArchive& Ar, UPackageMap* Map, bo
 		{
 			RepBits |= 1 << 13;
 		}
+		//if (DamageEffect > 0)
+		//{
+		//	RepBits |= 1 << 14;
+		//}
 	}
 
-	Ar.SerializeBits(&RepBits, 9);
+	Ar.SerializeBits(&RepBits, 13);
 
 	if (RepBits & (1 << 0))
 	{
@@ -141,6 +145,11 @@ bool FAuraGameplayEffectContext::NetSerialize(FArchive& Ar, UPackageMap* Map, bo
 		}
 		DamageType->NetSerialize(Ar, Map, bOutSuccess);
 	}
+	//if (RepBits & (1 << 14))
+	//{
+	//	Ar << DamageEffect;
+	//}
+
 	if (Ar.IsLoading())
 	{
 		AddInstigator(Instigator.Get(), EffectCauser.Get()); // Just to initialize InstigatorAbilitySystemComponent

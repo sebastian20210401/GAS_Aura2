@@ -8,6 +8,7 @@
 
 class UAbilityInfo;
 class UCharacterClassInfo;
+class UDamageEffectInfo;
 /**
  * 
  */
@@ -21,5 +22,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Ability Info")
 	TObjectPtr<UAbilityInfo> AbilityInfo;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage Effect Info")
+	TObjectPtr<UDamageEffectInfo> DamageEffectInfo;
 
 };
