@@ -173,18 +173,32 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Props)
 		const bool bFatal = NewHealth <= 0.f;
 		if (bFatal)
 		{
+			//TODO: Use Death Impulse!
 			ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor);
 			if (CombatInterface)
 			{
-				CombatInterface->Die();
+				FVector Impulse = UAuraAbilitySystemLibrary::GetDeathImpulse(Props.EffectContextHandle);
+				CombatInterface->Die(Impulse);
 			}
 			SendXPEvent(Props);
 		}
 		else
 		{
+			//FRandomStream rand;
+			//rand.GenerateNewSeed();
+			//FVector RandVector = rand.GetUnitVector();
+			const FVector& Impulse = UAuraAbilitySystemLibrary::GetDeathImpulse(Props.EffectContextHandle);
+			ICombatInterface::Execute_SetHitDirection(Props.TargetCharacter, Impulse);
+
 			FGameplayTagContainer TagContainer;
 			TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
 			Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+
+			const FVector& KnockbackForce = UAuraAbilitySystemLibrary::GetKnockbackForce(Props.EffectContextHandle);
+			if (!KnockbackForce.IsNearlyZero(1.f))
+			{
+				Props.TargetCharacter->LaunchCharacter(KnockbackForce, true, true);
+			}
 		}
 		const bool bBlock = UAuraAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
 		const bool bCriticalHit = UAuraAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
@@ -208,11 +222,13 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Props)
 	const float DebuffFrequency = UAuraAbilitySystemLibrary::GetDebuffFrequency(Props.EffectContextHandle);
 
 	// * Get GE from GM
-	auto s = UAuraAbilitySystemLibrary::GetDamageEffectInfo(Props.SourceAvatarActor);
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("%s"), *s->DamageEffectInformation[0].DamageEffectTag.GetTagName().ToString()));
-	TSubclassOf<UGameplayEffect> DamageEffect = UAuraAbilitySystemLibrary::GetDamageEffect(Props.SourceAvatarActor, DamageType);
-	const FGameplayEffectSpecHandle SpecHandle = Props.SourceASC->MakeOutgoingSpec(DamageEffect, 1, EffectContext);
-	Props.TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
+	////auto s = UAuraAbilitySystemLibrary::GetDamageEffectInfo(Props.SourceAvatarActor);
+	////GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, FString::Printf(TEXT("%s"), *s->DamageEffectInformation[0].DamageEffectTag.GetTagName().ToString()));
+	//TSubclassOf<UGameplayEffect> DamageEffect = UAuraAbilitySystemLibrary::GetDamageEffect(Props.SourceAvatarActor, DamageType);
+	//const FGameplayEffectSpecHandle SpecHandle = Props.SourceASC->MakeOutgoingSpec(DamageEffect, 1, EffectContext);
+	//// Use GE_Damage
+	//UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DamageType, DebuffDamage);
+	//Props.TargetASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
 	// *
 
 	FString DebuffName = FString::Printf(TEXT("DynamicDebuff_%s"), *DamageType.ToString());

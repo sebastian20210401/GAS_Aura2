@@ -30,9 +30,12 @@ public:
 
 	/** Combat Interface */
 	virtual int32 GetLevel_Implementation() override;
-	virtual void Die() override;
+	virtual void Die(const FVector& DeathImpulse) override;
 	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
 	virtual AActor* GetCombatTarget_Implementation() const override;
+
+	virtual void SetHitDirection_Implementation(const FVector& InHitDirection) override;
+	virtual FVector GetHitDirection_Implementation() override;
 	/** end Combat Interface */
 
 	UPROPERTY(BlueprintReadWrite, Category = "Combat")
@@ -54,6 +57,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
 	float LifeSpan = 5.f;
+
+	UPROPERTY()
+	FVector HitDirection;
 	
 protected:
 	virtual void BeginPlay() override;

@@ -66,12 +66,12 @@ int32 AAuraEnemy::GetLevel_Implementation()
 	return Level;
 }
 
-void AAuraEnemy::Die()
+void AAuraEnemy::Die(const FVector& DeathImpulse)
 {
 	SetLifeSpan(LifeSpan);
 	if (AuraAIController) AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Dead"), true);
 
-	Super::Die();
+	Super::Die(DeathImpulse);
 }
 
 void AAuraEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)
@@ -82,6 +82,16 @@ void AAuraEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)
 AActor* AAuraEnemy::GetCombatTarget_Implementation() const
 {
 	return CombatTarget;
+}
+
+void AAuraEnemy::SetHitDirection_Implementation(const FVector& InHitDirection)
+{
+	HitDirection = InHitDirection;
+}
+
+FVector AAuraEnemy::GetHitDirection_Implementation()
+{
+	return HitDirection;
 }
 
 void AAuraEnemy::BeginPlay()
@@ -147,6 +157,7 @@ void AAuraEnemy::InitAbilityActorInfo()
 		InitializeDefaultAttributes();		
 	}
 
+	OnAscRegistered.Broadcast(AbilitySystemComponent);
 }
 
 void AAuraEnemy::InitializeDefaultAttributes() const
