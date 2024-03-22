@@ -3,8 +3,6 @@
 
 #include "AbilitySystem/Abilities/ArcaneShards.h"
 
-#include "AbilitySystem/Abilities/ArcaneShards.h"
-
 FString UArcaneShards::GetDescription(int32 Level)
 {
 	const int32 ScaledDamage = Damage.GetValueAtLevel(Level);

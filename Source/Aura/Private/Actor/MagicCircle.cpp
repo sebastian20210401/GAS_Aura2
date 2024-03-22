@@ -10,8 +10,8 @@ AMagicCircle::AMagicCircle()
 	PrimaryActorTick.bCanEverTick = true;
 
 	MagicCircleDecal = CreateDefaultSubobject<UDecalComponent>("MagicCircleDecal");
-	MagicCircleDecal->SetupAttachment(GetRootComponent());
-
+	//MagicCircleDecal->SetupAttachment(GetRootComponent());
+	SetRootComponent(MagicCircleDecal);
 }
 
 // Called when the game starts or when spawned

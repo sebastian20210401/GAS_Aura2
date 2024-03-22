@@ -188,7 +188,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 					{
 						DamageTypeValue = DamageAmount;
 					});
-			}
+
 			UGameplayStatics::ApplyRadialDamageWithFalloff(
 				TargetAvatar,
 				DamageTypeValue,
@@ -201,6 +201,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 				TArray<AActor*>(),
 				SourceAvatar,
 				nullptr);
+			}
 		}
 
 		Damage += DamageTypeValue;

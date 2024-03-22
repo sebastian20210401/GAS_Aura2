@@ -3,8 +3,6 @@
 
 #include "AbilitySystem/Abilities/Electrocute.h"
 
-#include "AbilitySystem/Abilities/Electrocute.h"
-
 FString UElectrocute::GetDescription(int32 Level)
 {
 	const int32 ScaledDamage = Damage.GetValueAtLevel(Level);
